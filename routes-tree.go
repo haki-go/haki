@@ -20,9 +20,9 @@ func (h *Haki) applyRoutesTree() {
 	}
 }
 
-func applyHakiHandler(handler HakiHandler) func(ctx *fiber.Ctx) error {
+func applyHakiHandler(handler RouteHandler) func(ctx *fiber.Ctx) error {
 	return func(ctx *fiber.Ctx) error {
-		result := handler(HakiRequestContext{Request: ctx})
+		result := handler(Context{Request: ctx})
 
 		if result != nil {
 			switch v := result.(type) {
@@ -30,11 +30,11 @@ func applyHakiHandler(handler HakiHandler) func(ctx *fiber.Ctx) error {
 				return ctx.SendString(v)
 			case map[string]interface{}:
 				return ctx.JSON(v)
-			case HakiMap:
+			case Map:
 				return ctx.JSON(v)
-			case HakiArray:
+			case Array:
 				return ctx.JSON(v)
-			case HakiError:
+			case Exception:
 				return ctx.Status(v.StatusCode).SendString(v.Message)
 			}
 

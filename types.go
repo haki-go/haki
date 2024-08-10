@@ -1,9 +1,9 @@
 package haki
 
-type HakiError struct {
+type Exception struct {
 	Message    string
 	StatusCode int
 }
 
-type HakiMap map[string]any
-type HakiArray []any
+type Map map[string]any
+type Array []any

@@ -1,31 +1,31 @@
 package haki
 
-type HakiHandler func(ctx HakiRequestContext) any
-type HakiRoutes map[string]map[string][]HakiHandler
+type RouteHandler func(ctx Context) any
+type HakiRoutes map[string]map[string][]RouteHandler
 
-func (ctx *Haki) Get(path string, handlers ...HakiHandler) *Haki {
+func (ctx *Haki) Get(path string, handlers ...RouteHandler) *Haki {
 	return processMethod(ctx, path, "GET", handlers)
 }
 
-func (ctx *Haki) Post(path string, handlers ...HakiHandler) *Haki {
+func (ctx *Haki) Post(path string, handlers ...RouteHandler) *Haki {
 	return processMethod(ctx, path, "POST", handlers)
 }
 
-func (ctx *Haki) Put(path string, handlers ...HakiHandler) *Haki {
+func (ctx *Haki) Put(path string, handlers ...RouteHandler) *Haki {
 	return processMethod(ctx, path, "PUT", handlers)
 }
 
-func (ctx *Haki) Patch(path string, handlers ...HakiHandler) *Haki {
+func (ctx *Haki) Patch(path string, handlers ...RouteHandler) *Haki {
 	return processMethod(ctx, path, "PATCH", handlers)
 }
 
-func (ctx *Haki) Delete(path string, handlers ...HakiHandler) *Haki {
+func (ctx *Haki) Delete(path string, handlers ...RouteHandler) *Haki {
 	return processMethod(ctx, path, "DELETE", handlers)
 }
 
-func processMethod(h *Haki, route string, method string, handlers []HakiHandler) *Haki {
+func processMethod(h *Haki, route string, method string, handlers []RouteHandler) *Haki {
 	if h.routes[route] == nil {
-		h.routes[route] = make(map[string][]HakiHandler)
+		h.routes[route] = make(map[string][]RouteHandler)
 	}
 
 	h.routes[route][method] = handlers

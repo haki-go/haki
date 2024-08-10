@@ -8,26 +8,26 @@ import (
 type Haki struct {
 	fiberApp *fiber.App
 	routes   HakiRoutes
-	config   HakiConfig
+	config   Config
 }
 
-type HakiRequestContext struct {
+type Context struct {
 	Request *fiber.Ctx
 }
 
-type HakiConfig struct {
+type Config struct {
 	Prefix string
 	Name   string
 }
 
 type IHaki interface {
-	New(config HakiConfig) *Haki
+	New(config Config) *Haki
 	Cors(config ...cors.Config) *Haki
-	Get(path string, handlers ...func(ctx HakiRequestContext) any) *Haki
-	Post(path string, handlers ...func(ctx HakiRequestContext) any) *Haki
-	Put(path string, handlers ...func(ctx HakiRequestContext) any) *Haki
-	Patch(path string, handlers ...func(ctx HakiRequestContext) any) *Haki
-	Delete(path string, handlers ...func(ctx HakiRequestContext) any) *Haki
+	Get(path string, handlers ...func(ctx Context) any) *Haki
+	Post(path string, handlers ...func(ctx Context) any) *Haki
+	Put(path string, handlers ...func(ctx Context) any) *Haki
+	Patch(path string, handlers ...func(ctx Context) any) *Haki
+	Delete(path string, handlers ...func(ctx Context) any) *Haki
 	Use(handler *Haki) *Haki
 	Listen(port string)
 }
@@ -38,7 +38,7 @@ func (h *Haki) Cors(config ...cors.Config) *Haki {
 	return h
 }
 
-func New(config HakiConfig) *Haki {
+func New(config Config) *Haki {
 	fiberApp := fiber.New()
 
 	haki := Haki{}
